@@ -163,10 +163,31 @@ bbox_props_again=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='r',lw='1')
 again=ax_main.text(30,60,'',size='20',color='r',bbox=bbox_props_again)
 
 # Plot windows
-axlv=fig.add_subplot(gs[0,2],facecolor=(0.9,0.9,0.9))
-displ_rail_f,=axlv.plot([],[],'-b',linewidth=2,label='displ. on rails [m]')
+ax1v=fig.add_subplot(gs[0,2],facecolor=(0.9,0.9,0.9))
+displ_rail_f,=ax1v.plot([],[],'-b',linewidth=2,label='displ. on rails [m]')
 plt.xlim(t0,t_end)
 plt.ylim(np.min(displ_rail)-abs(np.min(displ_rail))*0.1,np.max(displ_rail)+abs(np.max(displ_rail))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
+
+ax2v=fig.add_subplot(gs[1,2],facecolor=(0.9,0.9,0.9))
+v_rail_f,=ax2v.plot([],[],'-b',linewidth=2,label='velocity on rails [m/s]')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(v_rail)-abs(np.min(v_rail))*0.1,np.max(v_rail)+abs(np.max(v_rail))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
+
+ax3v=fig.add_subplot(gs[2,2],facecolor=(0.9,0.9,0.9))
+a_rail_f,=ax3v.plot([],[],'-b',linewidth=2,label='accel. on rails [m/s^2] = F_net/m_platf.')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(a_rail)-abs(np.min(a_rail))*0.1,np.max(a_rail)+abs(np.max(a_rail))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
+
+ax1h=fig.add_subplot(gs[3,0],facecolor=(0.9,0.9,0.9))
+e_f,=ax1h.plot([],[],'-b',linewidth=2,label='horizontal error [m]')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(e)-abs(np.min(e))*0.1,np.max(e)+abs(np.max(e))*0.1)
 plt.grid(True)
 plt.legend(loc='lower left',fontsize='small')
 
