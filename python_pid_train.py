@@ -46,6 +46,18 @@ e_int=np.zeros((trials,len(t)))
 pos_x_cube=np.zeros((trials,len(t)))
 pos_y_cube=np.zeros((trials,len(t)))
 
+F_ga_t=F_g*np.sin(incl_angle) # Tangential component of the gravity force
+init_pos_x=120
+init_pos_y=120*np.tan(incl_angle)+6.5
+init_displ_rail=(init_pos_x**2+init_pos_y**2)**(0.5)
+init_vel_rail=0
+init_a_rail=0
+
+
+init_pos_x_global=init_pos_x # Used for determining the dimensions of the animation window.
+
+trials_magn=trials
+history=np.ones(trials)
 
 
 
