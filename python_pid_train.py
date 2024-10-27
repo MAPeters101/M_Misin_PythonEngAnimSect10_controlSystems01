@@ -191,6 +191,22 @@ plt.ylim(np.min(e)-abs(np.min(e))*0.1,np.max(e)+abs(np.max(e))*0.1)
 plt.grid(True)
 plt.legend(loc='lower left',fontsize='small')
 
+ax2h=fig.add_subplot(gs[3,1],facecolor=(0.9,0.9,0.9))
+e_dot_f,=ax2h.plot([],[],'-b',linewidth=2,label='change of horiz. error [m/s]')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(e_dot)-abs(np.min(e_dot))*0.1,np.max(e_dot)+abs(np.max(e_dot))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
+
+ax3h=fig.add_subplot(gs[3,2],facecolor=(0.9,0.9,0.9))
+e_int_f,=ax3h.plot([],[],'-b',linewidth=2,label='sum of horiz. error [m*s]')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(e_int)-abs(np.min(e_int))*0.1,np.max(e_int)+abs(np.max(e_int))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
+
+pid_ani=animation.FuncAnimation(fig,update_plot,
+    frames=frame_amount,interval=20,repeat=False,blit=True)
 plt.show()
 
 
