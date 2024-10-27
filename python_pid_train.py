@@ -1,3 +1,15 @@
+
+
+
+
+
+
+
+
+
+
+
+
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import matplotlib.animation as animation
@@ -34,6 +46,7 @@ t_end=5
 t=np.arange(t0,t_end+dt,dt)
 
 F_g=mass_cart*g
+
 displ_rail=np.zeros((trials,len(t)))
 v_rail=np.zeros((trials,len(t)))
 a_rail=np.zeros((trials,len(t)))
@@ -52,7 +65,6 @@ init_pos_y=120*np.tan(incl_angle)+6.5
 init_displ_rail=(init_pos_x**2+init_pos_y**2)**(0.5)
 init_vel_rail=0
 init_a_rail=0
-
 
 init_pos_x_global=init_pos_x # Used for determining the dimensions of the animation window.
 
@@ -93,6 +105,36 @@ while(trials>0):  # Determines how many times cube falls down.
             e[times][-1]=e[times][-2]
             e_dot[times][-1]=e_dot[times][-2]
             e_int[times][-1]=e_int[times][-2]
+
+        F_a=K_p*e[times][i-1]+K_d*e_dot[times][i-1]+K_i*e_int[times][i-1]
+        F_net=F_a+F_ga_t
+        a_rail[times][i]=F_net/mass_cart
+        v_rail[times][i]=v_rail[times][i-1]+(a_rail[times][i-1]+a_rail[times][i])/2*dt
+        displ_rail[times][i]=displ_rail[times][i-1]+(v_rail[times][i-1]+v_rail[times][i])/2*dt
+        pos_x_train[times][i]=displ_rail[times][i]*np.cos(incl_angle)
+        pos_y_train[times][i]=displ_rail[times][i]*np.sin(incl_angle)+6.5
+
+        # Try to catch
+        if (pos_x_train[times][i]-5<pos_x_cube[times][0]+3 and pos_x_train[times][i]+5>pos_x_cube[times][1]-3) or win==True:
+            if (pos_y_train[times][i]+3<pos_y_cube[times][0]-2 and pos_y_train[times][i]+8>pos_y_cube[times][1]+2) or win==True:
+                win=True
+                if delta==1:
+                    change=pos_x_train[times][i]-pos_x_cube[times][i]
+                    delta=0
+                pos_x_cube[times][i]=pos_x_train[times][i]-change
+                pos_y_cube[times][i]=pos_y_train[times][i]+5
+
+
+    init_displ_rail=displ_rail[times][-1]
+    init_pos_x=pos_x_train[times][-1]+v_rail[times][-1]*np.cos(incl_angle)*dt
+    init_pos_y=pos_y_train[times][-1]+v_rail[times][-1]*np.sin(incl_angle)*dt
+    init_vel_rail=v_rail[times][-1]
+    init_a_rail=a_rail[times][-1]
+    history[times]=delta
+    trials-=1
+
+
+
 
 
 
