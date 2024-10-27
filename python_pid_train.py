@@ -133,13 +133,27 @@ while(trials>0):  # Determines how many times cube falls down.
     history[times]=delta
     trials-=1
 
+############################## ANIMATION ##############################
+len_t=len(t)
+frame_amount=len(t)*trials_globals
+def update_plot(num):
 
 
+    return
+
+fig=plt.figure(figsize=(16,9),dpi=80,facecolor=(0.8,0.8,0.8))
+gs=gridspec.GridSpec(4,3)
+
+# Create main window
+ax_main=fig.add_subplot(gs[0:3,0:2],facecolor=(0.9,0.9,0.9))
+plt.xlim(0,init_pos_x_global)
+plt.ylim(0,init_pos_x_global)
+plt.xticks(np.arange(0,init_pos_x_global+1,10))
+plt.yticks(np.arange(0,init_pos_x_global+1,10))
+plt.grid(True)
 
 
+plt.show()
 
-################################################################################
-################################################################################
-################################################################################
 
 
