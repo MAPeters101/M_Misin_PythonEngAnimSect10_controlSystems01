@@ -152,6 +152,23 @@ plt.xticks(np.arange(0,init_pos_x_global+1,10))
 plt.yticks(np.arange(0,init_pos_x_global+1,10))
 plt.grid(True)
 
+rail=ax_main.plot([0,init_pos_x_global],[5,init_pos_x_global*np.tan(incl_angle)+5],'k',linewidth=6)
+platform,=ax_main.plot([],[],'b',linewidth=18)
+cube,=ax_main.plot([],[],'k',linewidth=14)
+
+bbox_props_success=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='g',lw='1')
+success=ax_main.text(40,60,'',size='20',color='g',bbox=bbox_props_success)
+
+bbox_props_again=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='r',lw='1')
+again=ax_main.text(30,60,'',size='20',color='r',bbox=bbox_props_again)
+
+# Plot windows
+axlv=fig.add_subplot(gs[0,2],facecolor=(0.9,0.9,0.9))
+displ_rail_f,=axlv.plot([],[],'-b',linewidth=2,label='displ. on rails [m]')
+plt.xlim(t0,t_end)
+plt.ylim(np.min(displ_rail)-abs(np.min(displ_rail))*0.1,np.max(displ_rail)+abs(np.max(displ_rail))*0.1)
+plt.grid(True)
+plt.legend(loc='lower left',fontsize='small')
 
 plt.show()
 
