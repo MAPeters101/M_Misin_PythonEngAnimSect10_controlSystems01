@@ -20,8 +20,8 @@ import random
 
 # ONLY CHANGE THESE INPUTS FOR THE CODE TO WORK PROPERLY
 
-# Initial input values
-trials=2
+# Initialize input values
+trials=3
 incl_angle=np.pi/6*1 # Keep the angle between 0 and +pi/6 radians
 g=10
 mass_cart=100 # [kg]
@@ -32,9 +32,9 @@ K_d=300
 K_i=10
 ################################################################################
 
-trials_globals=trials
+trials_global=trials
 
-# Generate random x-position for a falling cube
+# Generate random x-positions for a falling cube
 def set_x_ref(incl_angle):
     rand_h=random.uniform(0,120)
     rand_v=random.uniform(20+120*np.tan(incl_angle)+6.5,40+120*np.tan(incl_angle)+6.5)
@@ -45,7 +45,7 @@ t0=0
 t_end=5
 t=np.arange(t0,t_end+dt,dt)
 
-F_g=mass_cart*g
+F_g=-mass_cart*g
 
 displ_rail=np.zeros((trials,len(t)))
 v_rail=np.zeros((trials,len(t)))
@@ -70,12 +70,12 @@ init_pos_x_global=init_pos_x # Used for determining the dimensions of the animat
 
 trials_magn=trials
 history=np.ones(trials)
-while(trials>0):  # Determines how many times cube falls down.
+while(trials>0): # Determines how many times cube falls down
     pos_x_cube_ref=set_x_ref(incl_angle)[0] # Cube's initial x position
     pos_y_cube_ref=set_x_ref(incl_angle)[1] # Cube's initial y position
     times=trials_magn-trials
     pos_x_cube[times]=pos_x_cube_ref
-    pos_y_cube[times]=pos_x_cube_ref-g/2*t**2
+    pos_y_cube[times]=pos_y_cube_ref-g/2*t**2
     win=False
     delta=1
 
@@ -92,12 +92,12 @@ while(trials>0):  # Determines how many times cube falls down.
         # Compute the horizontal error
         e[times][i-1]=pos_x_cube_ref-pos_x_train[times][i-1]
 
-        # Check if the ratio of the horizontal and vertical distance can be added
-        if pos_y_cube[times][i-1]<10 or pos_y_cube[times][i-1]>-10:
-            e[times][i-1]=e[times][i-1]
-        else:
-            e[times][i-1]=e[times][i-1]*(abs(e[times][i-1])/abs(pos_y_cube[times][i-1]))
-
+        # # Check if the ratio of the horizontal and vertical distance can be added
+        # if pos_y_cube[times][i-1]<10 or pos_y_cube[times][i-1]>-10:
+        #     e[times][i-1]=e[times][i-1]
+        # else:
+        #     e[times][i-1]=e[times][i-1]*(abs(e[times][i-1])/abs(pos_y_cube[times][i-1]))
+        #
         if i>1:
             e_dot[times][i-1]=(e[times][i-1]-e[times][i-2])/dt
             e_int[times][i-1]=e_int[times][i-2]+(e[times][i-2]+e[times][i-1])/2*dt
@@ -114,8 +114,8 @@ while(trials>0):  # Determines how many times cube falls down.
         pos_x_train[times][i]=displ_rail[times][i]*np.cos(incl_angle)
         pos_y_train[times][i]=displ_rail[times][i]*np.sin(incl_angle)+6.5
 
-        # Try to catch
-        if (pos_x_train[times][i]-5<pos_x_cube[times][0]+3 and pos_x_train[times][i]+5>pos_x_cube[times][1]-3) or win==True:
+        # Try to catch it
+        if (pos_x_train[times][i]-5<pos_x_cube[times][i]+3 and pos_x_train[times][i]+5>pos_x_cube[times][i]-3) or win==True:
             if (pos_y_train[times][i]+3<pos_y_cube[times][i]-2 and pos_y_train[times][i]+8>pos_y_cube[times][i]+2) or win==True:
                 win=True
                 if delta==1:
@@ -131,11 +131,11 @@ while(trials>0):  # Determines how many times cube falls down.
     init_vel_rail=v_rail[times][-1]
     init_a_rail=a_rail[times][-1]
     history[times]=delta
-    trials-=1
+    trials=trials-1
 
 ############################## ANIMATION ##############################
 len_t=len(t)
-frame_amount=len(t)*trials_globals
+frame_amount=len(t)*trials_global
 def update_plot(num):
 
     platform.set_data([pos_x_train[int(num/len_t)][num-int(num/len_t)*len_t]-3.1,\
@@ -143,12 +143,12 @@ def update_plot(num):
     [pos_y_train[int(num/len_t)][num-int(num/len_t)*len_t],\
     pos_y_train[int(num/len_t)][num-int(num/len_t)*len_t]])
 
-    cube.set_data([pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]-3.1,\
-    pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]+3.1],\
+    cube.set_data([pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]-1,\
+    pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]+1],\
     [pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t],\
     pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t]])
 
-    if trials_magn*len_t==num+1 and num>0:  # All attempts must be successful
+    if trials_magn*len_t==num+1 and num>0: # All attempts must be successful
         if sum(history)==0:
             success.set_text("CONGRATS! YOU DID IT!")
         else:
@@ -189,10 +189,10 @@ rail=ax_main.plot([0,init_pos_x_global],[5,init_pos_x_global*np.tan(incl_angle)+
 platform,=ax_main.plot([],[],'b',linewidth=18)
 cube,=ax_main.plot([],[],'k',linewidth=14)
 
-bbox_props_success=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='g',lw='1')
+bbox_props_success=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='g',lw=1.0)
 success=ax_main.text(40,60,'',size='20',color='g',bbox=bbox_props_success)
 
-bbox_props_again=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='r',lw='1')
+bbox_props_again=dict(boxstyle='square',fc=(0.9,0.9,0.9),ec='r',lw=1.0)
 again=ax_main.text(30,60,'',size='20',color='r',bbox=bbox_props_again)
 
 # Plot windows
