@@ -138,8 +138,25 @@ len_t=len(t)
 frame_amount=len(t)*trials_globals
 def update_plot(num):
 
+    displ_rail_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        displ_rail[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
 
-    return
+    v_rail_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        v_rail[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
+
+    a_rail_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        a_rail[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
+
+    e_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        e[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
+
+    e_dot_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        e_dot[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
+
+    e_int_f.set_data(t[0:(num-int(num/len_t)*len_t)],
+        e_int[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
+
+    return displ_rail_f,v_rail_f,a_rail_f,e_f,e_dot_f,e_int_f
 
 fig=plt.figure(figsize=(16,9),dpi=80,facecolor=(0.8,0.8,0.8))
 gs=gridspec.GridSpec(4,3)
