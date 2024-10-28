@@ -138,6 +138,16 @@ len_t=len(t)
 frame_amount=len(t)*trials_globals
 def update_plot(num):
 
+    platform.set_data([pos_x_train[int(num/len_t)][num-int(num/len_t)*len_t]-3.1,\
+    pos_x_train[int(num/len_t)][num-int(num/len_t)*len_t]+3.1],\
+    [pos_y_train[int(num/len_t)][num-int(num/len_t)*len_t],\
+    pos_y_train[int(num/len_t)][num-int(num/len_t)*len_t]])
+
+    cube.set_data([pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]-3.1,\
+    pos_x_cube[int(num/len_t)][num-int(num/len_t)*len_t]+3.1],\
+    [pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t],\
+    pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t]])
+
     displ_rail_f.set_data(t[0:(num-int(num/len_t)*len_t)],
         displ_rail[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
 
@@ -156,7 +166,7 @@ def update_plot(num):
     e_int_f.set_data(t[0:(num-int(num/len_t)*len_t)],
         e_int[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
 
-    return displ_rail_f,v_rail_f,a_rail_f,e_f,e_dot_f,e_int_f
+    return displ_rail_f,v_rail_f,a_rail_f,e_f,e_dot_f,e_int_f,platform,cube
 
 fig=plt.figure(figsize=(16,9),dpi=80,facecolor=(0.8,0.8,0.8))
 gs=gridspec.GridSpec(4,3)
