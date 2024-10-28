@@ -116,7 +116,7 @@ while(trials>0):  # Determines how many times cube falls down.
 
         # Try to catch
         if (pos_x_train[times][i]-5<pos_x_cube[times][0]+3 and pos_x_train[times][i]+5>pos_x_cube[times][1]-3) or win==True:
-            if (pos_y_train[times][i]+3<pos_y_cube[times][0]-2 and pos_y_train[times][i]+8>pos_y_cube[times][1]+2) or win==True:
+            if (pos_y_train[times][i]+3<pos_y_cube[times][i]-2 and pos_y_train[times][i]+8>pos_y_cube[times][i]+2) or win==True:
                 win=True
                 if delta==1:
                     change=pos_x_train[times][i]-pos_x_cube[times][i]
@@ -148,6 +148,12 @@ def update_plot(num):
     [pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t],\
     pos_y_cube[int(num/len_t)][num-int(num/len_t)*len_t]])
 
+    if trials_magn*len_t==num+1 and num>0:  # All attempts must be successful
+        if sum(history)==0:
+            success.set_text("CONGRATS! YOU DID IT!")
+        else:
+            again.set_text("DON'T GIVE UP! YOU CAN DO IT!")
+
     displ_rail_f.set_data(t[0:(num-int(num/len_t)*len_t)],
         displ_rail[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
 
@@ -166,7 +172,7 @@ def update_plot(num):
     e_int_f.set_data(t[0:(num-int(num/len_t)*len_t)],
         e_int[int(num/len_t)][0:(num-int(num/len_t)*len_t)])
 
-    return displ_rail_f,v_rail_f,a_rail_f,e_f,e_dot_f,e_int_f,platform,cube
+    return displ_rail_f,v_rail_f,a_rail_f,e_f,e_dot_f,e_int_f,platform,cube,success,again
 
 fig=plt.figure(figsize=(16,9),dpi=80,facecolor=(0.8,0.8,0.8))
 gs=gridspec.GridSpec(4,3)
